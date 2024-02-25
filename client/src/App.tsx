@@ -5,8 +5,22 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Layout></Layout>} />
-        <Route path="/search" element={<span className="text-4xl">search</span>} />
+        <Route
+          path="/"
+          element={
+            <Layout>
+              <span className="text-4xl">home</span>
+            </Layout>
+          }
+        />
+        <Route
+          path="/search"
+          element={
+            <Layout>
+              <span className="text-4xl">search</span>
+            </Layout>
+          }
+        />
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </Router>
