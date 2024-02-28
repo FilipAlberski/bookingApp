@@ -3,12 +3,16 @@ import { check, validationResult } from 'express-validator';
 import User from '../models/user';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
+import verifyToken from '../middleware/authMiddleware';
 
 const router = express.Router();
 
 router.post(
   '/login',
-  [check('email', 'Email is required').isEmail(), check('password', 'Password with 6 or more letters is required').isLength({ min: 6 })],
+  [
+    check('email', 'Email is required').isEmail(),
+    check('password', 'Password with 6 or more letters is required').isLength({ min: 6 }),
+  ],
   async (req: Request, res: Response) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -29,7 +33,9 @@ router.post(
         return res.status(400).json({ message: 'Invalid credentials' });
       }
 
-      const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET_KEY as string, { expiresIn: '1d' });
+      const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET_KEY as string, {
+        expiresIn: '1d',
+      });
 
       res.cookie('auth_token', token, {
         httpOnly: true,
@@ -44,5 +50,9 @@ router.post(
     }
   }
 );
+
+router.get('/validate-token', verifyToken, async (req: Request, res: Response) => {
+  res.status(200).json({ userId: req.userId });
+});
 
 export default router;
