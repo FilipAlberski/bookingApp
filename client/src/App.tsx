@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Layout from './layouts/Layout';
 import Register from './pages/Register';
+import Signin from './pages/Signin';
 function App() {
   return (
     <Router>
@@ -22,19 +23,20 @@ function App() {
             </Layout>
           }
         />
-        <Route
-          path="/login"
-          element={
-            <Layout>
-              <span className="text-4xl">login</span>
-            </Layout>
-          }
-        />
+
         <Route
           path="/register"
           element={
             <Layout>
               <Register />
+            </Layout>
+          }
+        />
+        <Route
+          path="/sign-in"
+          element={
+            <Layout>
+              <Signin />
             </Layout>
           }
         />
